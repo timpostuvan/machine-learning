@@ -13,7 +13,7 @@ using namespace std;
 const double percent_tests = 20.0;
 const double INF = 1e9;
 
-// parameter 0 is class 
+// Parameter 0 is class 
 vector<vector<int>> data, test_data, learn_data;
 vector<vector<string>> string_data, attributes; 
 vector<map<string, int>> mapping; 
@@ -182,12 +182,12 @@ public:
 			node -> prediction = 0; 
 		}
 
-		// Whole subtree has same value so we don't need to branch it anymore
+		// Whole subtree has the same value so we don't need to branch it anymore
 		if(node -> p == 0 || node -> n == 0){
 			return;
 		}
 
-		// Find best attribute according to entropy
+		// Find the best attribute according to entropy
 		int attribute = -1;
 		long double best_value = INF;
 		for(int i = 1; i < data[0].size(); i++){
@@ -195,15 +195,12 @@ public:
 				continue;
 			}
 
-
-			long double current_value = calculate_attribute_entropy(node -> p, node -> n, data, i);
-			
+			long double current_value = calculate_attribute_entropy(node -> p, node -> n, data, i);			
 			if(current_value < best_value){
 				best_value = current_value;
 				attribute = i;
 			}
 		}
-
 
 		node -> attribute = attribute; 
 		if(attribute == -1){
@@ -232,6 +229,7 @@ public:
 			data_children[attribute_id].push_back(data[i]);
 		}
 
+		// Build tree recursively
 		for(int i = 0; i < data_children.size(); i++){
 			if(data_children[i].size() == 0){
 				continue;
@@ -253,7 +251,6 @@ public:
 		return make_prediction(test, node -> children[test[node -> attribute]]);
 	}
 };
-
 
 
 int main(){
