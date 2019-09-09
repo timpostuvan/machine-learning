@@ -148,7 +148,7 @@ int main(){
 	read_data("data/mnist_test.csv", test_data);
 
 	const int number_of_iterations = 200;
-	const long double learning_rate = 0.0000007;
+	const long double learning_rate = 0.000007;
 	
 	vector<Perceptron> perceptrons;
 	for(int number = 0; number < 10; number++){
