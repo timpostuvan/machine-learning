@@ -147,42 +147,25 @@ int main(){
 	read_data("data/mnist_train.csv", learn_data);
 	read_data("data/mnist_test.csv", test_data);
 
-	vector<int> number_of_iterations = {1, 5, 10, 100, 150, 200, 500, 1000};
-	vector<long double> learning_rates = {10.0, 1.0, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001};
-	vector<vector<long double>> results(number_of_iterations.size());
-
-	for(int i = 0; i < number_of_iterations.size(); i++){
-		results[i].resize(learning_rates.size());
-		for(int j = 0; j < learning_rates.size(); j++){
-			int it = number_of_iterations[i];
-			long double rate = learning_rates[j];
-
-			vector<Perceptron> perceptrons;
-			for(int number = 0; number < 10; number++){
-				perceptrons.push_back(Perceptron(number, learn_data));
-				perceptrons.back().train_perceptron(it, rate);
-			}
-
-			int correct = 0;
-			for(int i = 0; i < test_data.size(); i++){
-				int prediction = predict_number(perceptrons, test_data[i]);
-				correct += (prediction == test_data[i].label);
-			}
-
-			cout << "Number of iterations: " << it << endl
-				 << fixed << setprecision(7) << "Learning rate: " << rate << endl;
-
-			cout << fixed << setprecision(2) << "Predictions accuracy: " << 100.0 * correct / test_data.size() << endl << endl;
-			results[i][j] = 100.0 * correct / test_data.size();
-		}
+	const int number_of_iterations = 200;
+	const long double learning_rate = 0.0000007;
+	
+	vector<Perceptron> perceptrons;
+	for(int number = 0; number < 10; number++){
+		perceptrons.push_back(Perceptron(number, learn_data));
+		perceptrons.back().train_perceptron(number_of_iterations, learning_rate);
 	}
 
-	for(int i = 0; i < results.size(); i++){
-		for(int j = 0; j < results[i].size(); j++){
-			cout << fixed << setprecision(2) << " ";
-		}
-		cout << endl;
+	int correct = 0;
+	for(int i = 0; i < test_data.size(); i++){
+		int prediction = predict_number(perceptrons, test_data[i]);
+		correct += (prediction == test_data[i].label);
 	}
+
+	cout << "Number of iterations: " << number_of_iterations << endl
+		 << fixed << setprecision(7) << "Learning rate: " << learning_rate << endl;
+
+	cout << fixed << setprecision(2) << "Predictions accuracy: " << 100.0 * correct / test_data.size() << endl << endl;
 
 	return 0;
 }
