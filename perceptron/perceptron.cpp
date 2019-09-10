@@ -96,7 +96,10 @@ public:
 
 	Perceptron(int num, vector<Data> &dat): number(num), data(dat){
 		// Initialise w
-		w.resize(data[0].parameters.size(), 0);
+		w.resize(data[0].parameters.size());
+		for(int i = 0; i < w.size(); i++){
+			w[i] = 1.0 * rand() / RAND_MAX
+		}
 	}
 
 	long double prediction_strength(Data &x){
@@ -106,7 +109,7 @@ public:
 	int predict_label(Data &x){
 		long double strength = prediction_strength(x);
 		int prediction;
-		if(strength > 0){
+		if(strength >= 0.0){
 			prediction = 1;
 		}
 		else{
